@@ -1,0 +1,69 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1" xmlns:mvvm="clr-namespace:WpfApp1.MVVM" d:DataContext="{d:DesignInstance Type=mvvm:AppViewModel}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="794">
+    <Grid RenderTransformOrigin="0.88,0.726" Height="434" VerticalAlignment="Top">
+        <TreeView
+            Name="TreeView_PRJ" 
+            ItemsSource="{Binding Project_list}" 
+            Margin="0,0,459,0" 
+            RenderTransformOrigin="0.493,0.525">
+
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+
+
+            <TreeView.Resources>
+                <DataTemplate x:Key="documentTemplate" >
+                    <TextBlock Text="{Binding Path=Name}" />
+                </DataTemplate>
+                <HierarchicalDataTemplate x:Key="complectTemplate" 
+                                      ItemsSource="{Binding Path=Document_list}" 
+                                      ItemTemplate="{StaticResource ResourceKey=documentTemplate}">
+                    <TextBlock Text="{Binding Path=Mark}" />
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate x:Key="buildingTemplate" 
+                                      ItemsSource="{Binding Path=Complect_list}" 
+                                      ItemTemplate="{StaticResource ResourceKey=complectTemplate}">
+                    <TextBlock Text="{Binding Path=Object_name}" />
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Object_list}" 
+                                      ItemTemplate="{StaticResource ResourceKey=buildingTemplate}">
+                    <TextBlock Text="{Binding Path=Project_name}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <Button Content="Button" Margin="467,325,163,82"/>
+        <StackPanel DataContext="{Binding ItemBuilding}" Margin="200,33,0,33" RenderTransformOrigin="0.506,0.542">
+            <TextBox
+        
+                Text="{Binding Object_name, UpdateSourceTrigger=PropertyChanged}" Width="270" RenderTransformOrigin="0.5,0.448" />
+            
+        </StackPanel>
+        <TextBox 
+            Text="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap"  Width="120" Height="28" Margin="337,406,337,0" VerticalAlignment="Top"/>
+
+
+    </Grid>
+
+
+
+
+
+
+
+
+
+
+</Window>
